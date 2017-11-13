@@ -35,7 +35,7 @@ If you're not planning on using Ubuntu, you will need:
 ..* XML
 ..* PGSQL
 * PostgreSQL 9.5+
-* A functioning web server (e.g. Apache, Nginx, Caddy) that serves up the `dhcp_batcher` folder inside the repository.
+* A functioning web server (e.g. Apache, Nginx, Caddy) that serves up the `dhcp_batcher` folder inside the repository. Check out `conf/default` for an example nginx configuration file.
 * Redis
 
 After setup, you will need to copy the `.env.example` file in the `dhcp_batcher` directory to `.env` and run `php artisan key:generate`. You'll need to create a PostgreSQL database, and enter the database name, username, and password in the `.env` file in the `DB_DATABASE`, `DB_USERNAME`, and `DB_PASSWORD` fields respectively.
