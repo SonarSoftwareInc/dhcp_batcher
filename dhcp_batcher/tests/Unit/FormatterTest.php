@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Exceptions\FormattingException;
 use App\Services\Formatter;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -60,5 +61,23 @@ class FormatterTest extends TestCase
     {
         $formatter = new Formatter();
         $this->assertEquals("0A:00:3E:B1:45:2B",$formatter->formatMac("a:0:3e:b1:45:2b"));
+    }
+
+    /**
+     * @test
+     */
+    public function a_mac_must_be_hex()
+    {
+        $formatter = new Formatter();
+        try {
+            $formatter->formatMac("0A003EB1452Z");
+        }
+        catch (FormattingException $e)
+        {
+            $this->assertEquals($e->getMessage(), "0A003EB1452Z cannot be converted to a 12 character MAC address.");
+            return;
+        }
+
+        $this->fail("Formatted invalid MAC.");
     }
 }
