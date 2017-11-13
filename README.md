@@ -23,7 +23,7 @@ Please note that following the instructions below will quickly setup the DHCP ba
 
 ### Installation on an operating system other than Ubuntu
 
-You can skip this section if you followed the **Simple installation** section.
+**You can skip this section if you followed the Simple installation section.**
 
 If you're not planning on using Ubuntu, you will need:
 
@@ -44,4 +44,6 @@ Once this is done, install [Composer](https://getcomposer.org) and run `composer
 
 ## Configuration
 
-Coming soon.
+### Creating an initial user
+
+After initial installation, you can create a new user. Type `php /usr/share/dhcp_batcher/artisan make:user test@example.com`, replacing `test@example.com` with the user's email address, to generate a new user account. You can run this multiple times if you want to have additional users created.
