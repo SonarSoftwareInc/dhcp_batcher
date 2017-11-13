@@ -42,6 +42,14 @@ After setup, you will need to copy the `.env.example` file in the `dhcp_batcher`
 
 Once this is done, install [Composer](https://getcomposer.org) and run `composer install` inside the `dhcp_batcher` directory.
 
+Finally, run the following commands:
+
+* /usr/bin/php /usr/share/dhcp_batcher/artisan migrate --force
+* /usr/bin/php /usr/share/dhcp_batcher/artisan config:cache
+* /usr/bin/php /usr/share/dhcp_batcher/artisan route:cache
+
+You may need to reload PHP-FPM after the last two commands, if you are using PHP-FPM.
+
 ## Configuration
 
 ### Creating an initial user

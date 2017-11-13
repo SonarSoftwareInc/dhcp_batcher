@@ -24,3 +24,9 @@ sudo /bin/cp -rf $DIR/conf/php.ini /etc/php/7.0/fpm/php.ini
 sudo systemctl restart php7.0-fpm
 sudo /bin/cp -rf $DIR/conf/default /etc/nginx/sites-available/default
 sudo systemctl reload nginx
+
+/usr/bin/php /usr/share/dhcp_batcher/artisan migrate --force
+/usr/bin/php /usr/share/dhcp_batcher/artisan config:cache
+/usr/bin/php /usr/share/dhcp_batcher/artisan route:cache
+
+sudo systemctl reload php7.0-fpm
