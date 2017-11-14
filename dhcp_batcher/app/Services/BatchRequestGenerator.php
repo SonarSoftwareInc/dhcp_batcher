@@ -36,10 +36,10 @@ class BatchRequestGenerator
         $structure = $this->generateStructure();
         $httpClient = App::make('HttpClient');
         try {
-            $response = $httpClient->post("destination",[
+            $response = $httpClient->post(config("sonar.url") . "/api/v1/network/ipam/batch_dynamic_ip_assignment",[
                 'auth' => [
-                    'user',
-                    'pass'
+                    config("sonar.username"),
+                    config("sonar.password")
                 ],
                 'json' => $structure
             ]);

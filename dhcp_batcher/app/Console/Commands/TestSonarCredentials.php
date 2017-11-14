@@ -42,10 +42,10 @@ class TestSonarCredentials extends Command
         $client = App::make('HttpClient');
 
         try {
-            $client->get(env('SONAR_URL') . "/api/v1/accounts?limit=1",[
+            $client->get(config("sonar.url") . "/api/v1/accounts?limit=1",[
                 'auth' => [
-                    env('SONAR_USERNAME'),
-                    env('SONAR_PASSWORD'),
+                    config("sonar.username"),
+                    config("sonar.password"),
                 ]
             ]);
         }
