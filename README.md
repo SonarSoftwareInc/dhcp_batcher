@@ -25,7 +25,7 @@ Please note that following the instructions below will quickly setup the DHCP ba
 
 1. Install [Ubuntu 16.04](https://www.ubuntu.com/download/server)
 2. Install git by typing `sudo apt-get install git`
-3. Check out this repository //TODO: Add full instructions here
+3. Check out this repository by typing `git clone https://github.com/sonarsoftware/dhcp_batcher`
 4. Enter the directory you checked out (typically `cd dhcp_batcher`, but you can run `ls` to see a list of directories in your current directory to check.)
 5. Type `chmod +x install-ubuntu.sh`
 6. Type `./install-ubuntu.sh`

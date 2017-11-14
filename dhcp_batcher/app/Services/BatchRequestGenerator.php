@@ -54,6 +54,14 @@ class BatchRequestGenerator
         catch (Exception $e)
         {
             Log::error("Failure when communicating with Sonar: " . $e->getMessage());
+            return;
+        }
+
+        if (config("app.debug") == true)
+        {
+            $responseData = json_decode($response->getBody()->getContents(),true);
+            Log::info("Data accepted by Sonar.");
+            Log::info(var_export($responseData,true));
         }
     }
 
