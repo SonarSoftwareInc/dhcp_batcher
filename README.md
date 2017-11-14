@@ -82,3 +82,7 @@ To login, access the server IP/hostname in a browser (e.g. http://192.168.100.1.
 There is an .env file located in your dhcp_batcher directory (typically /usr/share/dhcp_batcher.) This file has three properties in it - `SONAR_URL`, `SONAR_USERNAME`, and `SONAR_PASSWORD`. Enter the URL of your Sonar instance (e.g. https://example.sonar.software) in the `SONAR_URL` field. Enter a valid username and password that you can use to login to your instance in the `SONAR_USERNAME` and `SONAR_PASSWORD` field. This user requires *Account Create* and *Account Update* permissions, and should not be given any other permissions. **Do not use an administrative account here!**
 
 You can test the user by executing `/usr/bin/php /usr/share/dhcp_batcher/artisan sonar:test`.
+
+### Enabling SSL
+
+It is strongly recommended that you secure this server using SSL. You can get a free Let's Encrypt certificate in order to this. There is a tutorial available [here](https://www.digitalocean.com/community/tutorials/how-to-set-up-let-s-encrypt-with-nginx-server-blocks-on-ubuntu-16-04) that steps you through configuration Let's Encrypt with nginx on Ubuntu. If you utilized the Ubuntu installation script, you should be able to follow these instructions to setup a free SSL certificate quickly. The nginx configuration file referenced in the tutorial is at `/etc/nginx/sites-available/default`.
