@@ -13,7 +13,9 @@ class BatchRequestGenerator
 
     public function generateStructure()
     {
-        $structure = [];
+        $structure = [
+
+        ];
 
         $this->assignments = PendingDhcpAssignment::orderBy('created_at','asc')->get();
         foreach ($this->assignments as $assignment)
@@ -26,7 +28,9 @@ class BatchRequestGenerator
             ];
         }
 
-        return array_values($structure);
+        return [
+            'data' => array_values($structure)
+        ];
     }
 
     /**

@@ -20,18 +20,20 @@ class BatchRequestGeneratorTest extends TestCase
         $assignments = factory(PendingDhcpAssignment::class, 2)->create();
         $batchGenerator = new BatchRequestGenerator();
         $this->assertEquals([
-            [
-                'expired' => $assignments[0]->expired,
-                'ip_address' => $assignments[0]->ip_address,
-                'mac_address' => $assignments[0]->leased_mac_address,
-                'remote_id' => $assignments[0]->remote_id,
-            ],
-            [
-                'expired' => $assignments[1]->expired,
-                'ip_address' => $assignments[1]->ip_address,
-                'mac_address' => $assignments[1]->leased_mac_address,
-                'remote_id' => $assignments[1]->remote_id,
-            ]
+            'data' => array_reverse([
+                [
+                    'expired' => $assignments[0]->expired,
+                    'ip_address' => $assignments[0]->ip_address,
+                    'mac_address' => $assignments[0]->leased_mac_address,
+                    'remote_id' => $assignments[0]->remote_id,
+                ],
+                [
+                    'expired' => $assignments[1]->expired,
+                    'ip_address' => $assignments[1]->ip_address,
+                    'mac_address' => $assignments[1]->leased_mac_address,
+                    'remote_id' => $assignments[1]->remote_id,
+                ]
+            ])
         ], $batchGenerator->generateStructure());
     }
 
@@ -55,18 +57,20 @@ class BatchRequestGeneratorTest extends TestCase
         $this->assertEquals(3, PendingDhcpAssignment::count());
 
         $this->assertEquals([
-            [
-                'expired' => $assignments[0]->expired,
-                'ip_address' => $assignments[0]->ip_address,
-                'mac_address' => $assignments[0]->leased_mac_address,
-                'remote_id' => $assignments[0]->remote_id,
-            ],
-            [
-                'expired' => $duplicateAssignment->expired,
-                'ip_address' => $duplicateAssignment->ip_address,
-                'mac_address' => $duplicateAssignment->leased_mac_address,
-                'remote_id' => $duplicateAssignment->remote_id,
-            ]
+            'data' => array_reverse([
+                [
+                    'expired' => $assignments[0]->expired,
+                    'ip_address' => $assignments[0]->ip_address,
+                    'mac_address' => $assignments[0]->leased_mac_address,
+                    'remote_id' => $assignments[0]->remote_id,
+                ],
+                [
+                    'expired' => $duplicateAssignment->expired,
+                    'ip_address' => $duplicateAssignment->ip_address,
+                    'mac_address' => $duplicateAssignment->leased_mac_address,
+                    'remote_id' => $duplicateAssignment->remote_id,
+                ]
+            ])
         ], $structure);
 
         $this->assertCount(2, $structure);
@@ -83,11 +87,13 @@ class BatchRequestGeneratorTest extends TestCase
         $structure = $batchGenerator->generateStructure();
 
         $this->assertEquals([
-            [
-                'expired' => $assignment->expired,
-                'ip_address' => $assignment->ip_address,
-                'mac_address' => $assignment->leased_mac_address,
-                'remote_id' => null
+            'data' => [
+                [
+                    'expired' => $assignment->expired,
+                    'ip_address' => $assignment->ip_address,
+                    'mac_address' => $assignment->leased_mac_address,
+                    'remote_id' => null
+                ]
             ]
         ], $structure);
     }
