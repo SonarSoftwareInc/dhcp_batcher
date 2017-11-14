@@ -75,7 +75,46 @@ To login, access the server IP/hostname in a browser (e.g. http://192.168.100.1.
 
 ### Delivering DHCP leases to the batcher
 
-//TODO: write me
+For this tool to work, your DHCP server must deliver leases to the batcher in a standard format. The data can either be sent as JSON in a POST, or can be encoded as GET parameters.
+
+The format in JSON is show below. To send as GET parameters, simply encode each parameter into the URL.
+
+```
+{
+    "leased_mac_address": "00:AA:BB:CC:DD:EE",
+    "ip_address": "192.168.100.2",
+    "remote_id": "BB:CC:DD:11:22:33", #Can be null
+    "expired": false
+}
+```
+
+`leased_mac_address` is the MAC address of the requesting device, and must be the MAC address of an inventory item on the customer account, unless `remote_id` is also specified, in which case, the `remote_id` will be used to find the customer account. `ip_address` is the IP address being assigned or expired. `remote_id` is optional. If you're using Option 82, this should be the MAC address of the relay agent. This must correspond to the MAC address of an inventory item on a customer account for the IP to be assigned. Finally, `expired` specifies whether or not the lease is expired or new. If this is a renewal or new assignment, `expired` should be `false`. Otherwise, expired should be `true`.
+
+This data should be sent to the DHCP batcher server at `/api/dhcp_assignments` using basic HTTP authentication. The username and password to use for authentication is created by adding a DHCP server within the Sonar DHCP Batcher web interface.
+
+Below is an example script you can use on a [MikroTik](http://mikrotik.com) DHCP server. This tool should work with any DHCP server that can create a HTTP request upon lease assignment or expiration.
+
+```
+:global username "dhcp_batcher_username" #The username for this DHCP server setup in the batcher.
+:global password "dhcp_batcher_password" #The password for this DHCP server setup in the batcher.
+:global url "batcher.example.com" #The URL of your batcher, can also be an IP address.
+:global mode "http" #This should be 'http' or 'https' depending on if your batcher is using SSL. The default is 'http'.
+
+:if ($leaseBound = 0) do={
+   /tool fetch url="$mode://$url/api/dhcp_assignments?ip_address=$leaseActIP&leased_mac_address=$leaseActMAC&expired=1" mode=$mode keep-result=no user=$username password=$password
+} else={
+   { :delay 1 };
+   :local remoteID
+   :set remoteID [/ip dhcp-server lease get [find where address=$leaseActIP] agent-remote-id]
+   /tool fetch url="$mode://$url/api/dhcp_assignments?ip_address=$leaseActIP&leased_mac_address=$leaseActMAC&remote_id=$remoteID&expired=0" mode=$mode keep-result=no user=$username password=$password
+};
+```
+
+You can test this script by running the following command directly from your MikroTik terminal. You must replace the $url, $mode, $username, and $password variables with valid information.
+
+```
+/tool fetch url="$mode://$url/api/dhcp_assignments\?ip_address=192.168.100.1&leased_mac_address=00:00:00:00:00:00&remote_id=&expired=0" mode=$mode keep-result=no user=$username password=$password
+```
 
 ### Linking the batcher to Sonar
 
