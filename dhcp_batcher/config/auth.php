@@ -42,8 +42,8 @@ return [
         ],
 
         'api' => [
-            'driver' => 'token',
-            'provider' => 'users',
+            'driver' => 'apiguard',
+            'provider' => 'api',
         ],
     ],
 
@@ -69,6 +69,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\User::class,
         ],
+        'api' => [
+            'driver' => 'api',
+            'model' => \App\DhcpServer::class,
+        ]
 
         // 'users' => [
         //     'driver' => 'database',

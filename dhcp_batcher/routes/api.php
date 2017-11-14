@@ -13,4 +13,5 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::match(['get', 'post'], 'dhcp_assignments', 'DhcpReceiptController@receiveDhcpAssignment');
+Route::match(['get', 'post'], 'dhcp_assignments', 'DhcpReceiptController@receiveDhcpAssignment')->middleware(['auth:api']);
+
