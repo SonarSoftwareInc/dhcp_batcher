@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Services\Formatter;
 use Illuminate\Database\Eloquent\Model;
 
 class PendingDhcpAssignment extends Model
@@ -14,4 +15,24 @@ class PendingDhcpAssignment extends Model
         'remote_id',
         'expired',
     ];
+
+    protected $casts = [
+        'expired' => 'boolean',
+    ];
+
+    public function getLeasedMacAddressAttribute($value)
+    {
+        $formatter = new Formatter();
+        return $formatter->formatMac($value);
+    }
+
+    public function getRemoteIdAttribute($value)
+    {
+        if ($value)
+        {
+            $formatter = new Formatter();
+            return $formatter->formatMac($value);
+        }
+        return $value;
+    }
 }
