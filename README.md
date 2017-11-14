@@ -59,6 +59,8 @@ Finally, run the following commands:
 
 You may need to reload PHP-FPM after the last two commands, if you are using PHP-FPM.
 
+Any time you modify your .env file, you must run `/usr/bin/php /usr/share/dhcp_batcher/artisan config:cache` and reload PHP-FPM.
+
 ## Configuration
 
 ### Creating an initial user
@@ -121,6 +123,14 @@ You can test this script by running the following command directly from your Mik
 There is an .env file located in your dhcp_batcher directory (typically /usr/share/dhcp_batcher.) This file has three properties in it - `SONAR_URL`, `SONAR_USERNAME`, and `SONAR_PASSWORD`. Enter the URL of your Sonar instance (e.g. https://example.sonar.software) in the `SONAR_URL` field. Enter a valid username and password that you can use to login to your instance in the `SONAR_USERNAME` and `SONAR_PASSWORD` field. This user requires *Account Create* and *Account Update* permissions, and should not be given any other permissions. **Do not use an administrative account here!**
 
 You can test the user by executing `/usr/bin/php /usr/share/dhcp_batcher/artisan sonar:test`.
+
+### Troubleshooting
+
+**By default, the batcher will not log many errors. You can enable enhanced logging by setting `APP_DEBUG` to `true` in your `.env` file. You will need to run `/usr/bin/php /usr/share/dhcp_batcher/artisan config:cache` after modifying this file.**
+
+Any errors are logged to `storage/logs/laravel.log`. You can view this in a standard installation by typing `tail -f /usr/share/dhcp_batcher/storage/logs/laravel.log` and initiating some calls from your DHCP server.
+
+You should not leave debug mode permanently enabled, unless you setup some kind of [log rotation](http://manpages.ubuntu.com/manpages/xenial/man8/logrotate.8.html) mechanism on the log file, as it will eventually grow to consume all storage space available.
 
 ### Enabling SSL
 
