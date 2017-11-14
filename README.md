@@ -124,14 +124,18 @@ There is an .env file located in your dhcp_batcher directory (typically /usr/sha
 
 You can test the user by executing `/usr/bin/php /usr/share/dhcp_batcher/artisan sonar:test`.
 
-### Troubleshooting
+### Enabling SSL
+
+It is strongly recommended that you secure this server using SSL. You can get a free Let's Encrypt certificate in order to this. There is a tutorial available [here](https://www.digitalocean.com/community/tutorials/how-to-set-up-let-s-encrypt-with-nginx-server-blocks-on-ubuntu-16-04) that steps you through configuration Let's Encrypt with nginx on Ubuntu. If you utilized the Ubuntu installation script, you should be able to follow these instructions to setup a free SSL certificate quickly. The nginx configuration file referenced in the tutorial is at `/etc/nginx/sites-available/default`.
+
+### Upgrading
+
+You can upgrade by running `php /usr/share/dhcp_batcher/upgrade.php`, or just by checking out this repository and copying the files over the top.
+
+## Troubleshooting
 
 **By default, the batcher will not log many errors. You can enable enhanced logging by setting `APP_DEBUG` to `true` in your `.env` file. You will need to run `/usr/bin/php /usr/share/dhcp_batcher/artisan config:cache` after modifying this file.**
 
 Any errors are logged to `storage/logs/laravel.log`. You can view this in a standard installation by typing `tail -f /usr/share/dhcp_batcher/storage/logs/laravel.log` and initiating some calls from your DHCP server.
 
 You should not leave debug mode permanently enabled, unless you setup some kind of [log rotation](http://manpages.ubuntu.com/manpages/xenial/man8/logrotate.8.html) mechanism on the log file, as it will eventually grow to consume all storage space available.
-
-### Enabling SSL
-
-It is strongly recommended that you secure this server using SSL. You can get a free Let's Encrypt certificate in order to this. There is a tutorial available [here](https://www.digitalocean.com/community/tutorials/how-to-set-up-let-s-encrypt-with-nginx-server-blocks-on-ubuntu-16-04) that steps you through configuration Let's Encrypt with nginx on Ubuntu. If you utilized the Ubuntu installation script, you should be able to follow these instructions to setup a free SSL certificate quickly. The nginx configuration file referenced in the tutorial is at `/etc/nginx/sites-available/default`.

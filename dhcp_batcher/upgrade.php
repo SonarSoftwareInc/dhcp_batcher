@@ -37,6 +37,7 @@ if (version_compare($currentVersion, $latestVersion) === -1)
     exec("/usr/bin/php " . dirname(__FILE__) . "/artisan migrate --force");
     exec("/usr/bin/php " . dirname(__FILE__) . "/artisan config:cache");
     exec("/usr/bin/php " . dirname(__FILE__) . "/artisan route:cache");
+    exec("(cd " . dirname(__FILE__) . "; composer install)");
 }
 
 echo "You are on the latest version.\n";
