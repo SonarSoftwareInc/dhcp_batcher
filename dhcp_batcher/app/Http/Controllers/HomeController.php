@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\PendingDhcpAssignment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -29,5 +30,14 @@ class HomeController extends Controller
             }
         }
         return view('home', compact('pendingCount','oldestSpan'));
+    }
+
+    /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function flush()
+    {
+        DB::table('pending_dhcp_assignments')->delete();
+        return redirect()->action('HomeController@index')->with('status', 'All pending assignments flushed.');
     }
 }
