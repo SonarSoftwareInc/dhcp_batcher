@@ -30,7 +30,7 @@
                                 <td>{{$dhcpServer->name}}</td>
                                 <td>{{$dhcpServer->username}}</td>
                                 <td>
-                                    <a class="button btn btn-primary">Reset Password</a>
+                                    <a href="{{action("DhcpServerController@resetPassword",['dhcp_server' => $dhcpServer->id])}}" class="button btn btn-primary">Reset Password</a>
                                     <a class="button btn btn-danger">Delete</a>
                                 </td>
                             </tr>

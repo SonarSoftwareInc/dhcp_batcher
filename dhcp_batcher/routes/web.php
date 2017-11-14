@@ -25,6 +25,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::group(['prefix' => 'dhcp_servers'], function() {
         Route::get("/","DhcpServerController@index");
         Route::get("/create","DhcpServerController@create");
+        Route::get("/{dhcp_server}/reset","DhcpServerController@resetPassword");
         Route::post("/","DhcpServerController@store");
     });
 });

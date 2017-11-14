@@ -17,6 +17,7 @@ $factory->define(App\DhcpServer::class, function (Faker $faker) {
     static $password;
 
     return [
+        'name' => str_random(16),
         'username' => str_random(16),
         'password' => $password ?: $password = bcrypt('secret'),
     ];
