@@ -26,7 +26,7 @@
                             <tbody>
                             @foreach ($dhcpServers as $key => $dhcpServer)
                             <tr>
-                                <th scope="row">{{$key}}</th>
+                                <th scope="row">{{$dhcpServer->id}}</th>
                                 <td>{{$dhcpServer->name}}</td>
                                 <td>{{$dhcpServer->username}}</td>
                                 <td>

@@ -31,7 +31,6 @@
                     @endif
                         <a href="/flush" class="btn btn-primary btn-lg btn-block">Flush Pending Assignments</a>
                         <a href="/dhcp_servers" class="btn btn-primary btn-lg btn-block">Manage DHCP Servers</a>
-                        <a href="/logs" class="btn btn-primary btn-lg btn-block">View Logs</a>
                 </div>
             </div>
         </div>

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\PendingDhcpAssignment;
 use Exception;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
 
 class BatchRequestGenerator
 {
@@ -29,7 +30,7 @@ class BatchRequestGenerator
     }
 
     /**
-     *
+     * Send the assignments over to Sonar
      */
     public function send()
     {
@@ -48,10 +49,8 @@ class BatchRequestGenerator
         }
         catch (Exception $e)
         {
-            //TODO: Deal with failure
+            Log::error("Failure when communicating with Sonar: " . $e->getMessage());
         }
-
-        //Parse response and do something with it
     }
 
     /**
