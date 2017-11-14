@@ -49,10 +49,10 @@ class BatchRequestGeneratorTest extends TestCase
         ]);
         $duplicateAssignment->save();
 
-        $this->assertEquals(3, PendingDhcpAssignment::count());
-
         $batchGenerator = new BatchRequestGenerator();
         $structure = $batchGenerator->generateStructure();
+
+        $this->assertEquals(3, PendingDhcpAssignment::count());
 
         $this->assertEquals([
             [
@@ -70,16 +70,5 @@ class BatchRequestGeneratorTest extends TestCase
         ], $structure);
 
         $this->assertCount(2, $structure);
-    }
-
-    /**
-     * @test
-     */
-    public function generating_a_request_removes_pending_requests()
-    {
-        factory(PendingDhcpAssignment::class, 2)->create();
-        $batchGenerator = new BatchRequestGenerator();
-        $this->assertCount(2, $batchGenerator->generateStructure());
-        $this->assertCount(0, $batchGenerator->generateStructure());
     }
 }
