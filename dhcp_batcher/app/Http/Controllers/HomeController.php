@@ -15,7 +15,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $pendingCount = \App\PendingDhcpAssignment::count();
+        $pendingCount = PendingDhcpAssignment::count();
         $oldestSpan = 0;
 
         if ($pendingCount > 0)
