@@ -21,6 +21,12 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/flush','HomeController@flush');
     Route::get("/configuration","ConfigurationController@index");
+
+    Route::group(['prefix' => 'dhcp_servers'], function() {
+        Route::get("/","DhcpServerController@index");
+        Route::get("/create","DhcpServerController@create");
+        Route::post("/","DhcpServerController@store");
+    });
 });
 
 

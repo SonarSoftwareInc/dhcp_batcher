@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class DhcpServer extends Model implements Authenticatable
 {
     protected $fillable = [
+        'name',
         'username',
         'password',
     ];
