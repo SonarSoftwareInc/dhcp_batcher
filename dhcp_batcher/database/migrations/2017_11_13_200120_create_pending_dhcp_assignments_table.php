@@ -20,6 +20,7 @@ class CreatePendingDhcpAssignmentsTable extends Migration
             $table->macAddress('remote_id')->nullable();
             $table->boolean('expired');
             $table->timestamps(6);
+            $table->index(['created_at', 'updated_at']);
         });
     }
 

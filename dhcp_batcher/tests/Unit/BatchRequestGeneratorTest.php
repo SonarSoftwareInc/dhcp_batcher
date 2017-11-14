@@ -48,7 +48,7 @@ class BatchRequestGeneratorTest extends TestCase
             'expired' => true,
         ]);
         $duplicateAssignment->save();
-        
+
         $this->assertEquals(3, PendingDhcpAssignment::count());
 
         $batchGenerator = new BatchRequestGenerator();
