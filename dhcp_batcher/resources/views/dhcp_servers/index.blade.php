@@ -30,8 +30,23 @@
                                 <td>{{$dhcpServer->name}}</td>
                                 <td>{{$dhcpServer->username}}</td>
                                 <td>
-                                    <a href="{{action("DhcpServerController@resetPassword",['dhcp_server' => $dhcpServer->id])}}" class="button btn btn-primary">Reset Password</a>
-                                    <a class="button btn btn-danger">Delete</a>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <form method="post" action="{{action("DhcpServerController@resetPassword",['dhcp_server' => $dhcpServer->id])}}">
+                                                {{csrf_field()}}
+                                                <input type="hidden" name="_method" value="PATCH">
+                                                <button class="btn btn-primary" type="submit">Reset Password</button>
+                                            </form>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <form method="post" action="{{action("DhcpServerController@destroy",['dhcp_server' => $dhcpServer->id])}}">
+                                                {{csrf_field()}}
+                                                <input type="hidden" name="_method" value="DELETE">
+                                                <button class="btn btn-danger" type="submit">Delete</button>
+                                            </form>
+
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach

@@ -43,4 +43,11 @@ class DhcpServerController extends Controller
 
         return redirect()->action('DhcpServerController@index')->with('status',"The new password for {$dhcpServer->name} is $password - copy this password, as you won't be able to view it again!");
     }
+
+    public function destroy($id)
+    {
+        $dhcpServer = DhcpServer::findOrFail($id);
+        $dhcpServer->delete();
+        return redirect()->action('DhcpServerController@index')->with('status',"DHCP server deleted.");
+    }
 }

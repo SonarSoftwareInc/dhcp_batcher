@@ -67,11 +67,27 @@ class DhcpServerTest extends TestCase
         $this->assertTrue(password_verify('secret', $server->password));
 
         $this->actingAs($user)
-            ->get("/dhcp_servers/{$server->id}/reset")
+            ->patch("/dhcp_servers/{$server->id}/reset")
             ->assertStatus(302);
 
         $server = $server->fresh();
 
         $this->assertFalse(password_verify('secret', $server->password));
+    }
+
+    /**
+     * @test
+     */
+    public function deleting_a_server_succeeds()
+    {
+        $user = factory(User::class)->create();
+
+        $server = factory(DhcpServer::class)->create(['password' => bcrypt('secret')]);
+
+        $this->actingAs($user)
+            ->delete("/dhcp_servers/{$server->id}")
+            ->assertStatus(302);
+
+        $this->assertNull(DhcpServer::find($server->id));
     }
 }
