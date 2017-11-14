@@ -31,8 +31,9 @@ class DhcpReceiptControllerTest extends TestCase
 
         $response = $this->actingAs($this->dhcpServer, 'api')
             ->json('POST', '/api/dhcp_assignments', [
-            'leased_mac_address' => '00:00:00:00:00:00',
-            'ip_address' => '192.168.100.1',
+                'leased_mac_address' => '00:00:00:00:00:00',
+                'ip_address' => '192.168.100.1',
+                'expired' => false,
         ]);
 
         $response->assertStatus(200)
@@ -54,7 +55,7 @@ class DhcpReceiptControllerTest extends TestCase
         $this->assertNull(PendingDhcpAssignment::where('leased_mac_address','=','00:00:00:00:00:00')->first());
 
         $response = $this->actingAs($this->dhcpServer, 'api')
-            ->get('/api/dhcp_assignments?leased_mac_address=00:00:00:00:00:00&ip_address=192.168.100.1');
+            ->get('/api/dhcp_assignments?leased_mac_address=00:00:00:00:00:00&ip_address=192.168.100.1&expired=0');
 
         $response->assertStatus(200)
             ->assertJson(['success' => true ]);
@@ -76,9 +77,10 @@ class DhcpReceiptControllerTest extends TestCase
 
         $response = $this->actingAs($this->dhcpServer, 'api')
             ->json('POST', '/api/dhcp_assignments', [
-            'leased_mac_address' => '00:00:00:00:00:00',
-            'ip_address' => '192.168.100.1',
-            'remote_id' => 'AA:AA:AA:AA:AA:AA'
+                'leased_mac_address' => '00:00:00:00:00:00',
+                'ip_address' => '192.168.100.1',
+                'remote_id' => 'AA:AA:AA:AA:AA:AA',
+                'expired' => false,
         ]);
 
         $response->assertStatus(200)
@@ -145,16 +147,17 @@ class DhcpReceiptControllerTest extends TestCase
         $this->assertEquals("The ip address field is required.",$response->json()['errors']['ip_address'][0]);
     }
 
+
     /**
      * @test
      */
-    public function a_dhcp_assignment_with_a_bad_ip_is_rejected()
+    public function a_dhcp_assignment_without_the_expired_value_is_rejected()
     {
         $response = $this->actingAs($this->dhcpServer, 'api')->json('POST', '/api/dhcp_assignments', [
-            'leased_mac_address' => '00:00:00:00:00:0A',
-            'ip_address' => '192.168.100.256',
+            'leased_mac_address' => '00:00:00:00:00:00',
+            'ip_address' => '192.168.100.1',
         ]);
 
-        $this->assertEquals("The ip address must be a valid IP address.",$response->json()['errors']['ip_address'][0]);
+        $this->assertEquals("The expired field is required.",$response->json()['errors']['expired'][0]);
     }
 }

@@ -18,6 +18,7 @@ class DhcpReceiptController extends Controller
             'leased_mac_address' => request('leased_mac_address'),
             'ip_address' => request('ip_address'),
             'remote_id' => request('remote_id'),
+            'expired' => request('expired'),
         ]);
         $pendingDhcpAssignment->save();
 

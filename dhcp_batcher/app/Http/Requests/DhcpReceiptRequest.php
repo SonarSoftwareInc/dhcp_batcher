@@ -29,6 +29,7 @@ class DhcpReceiptRequest extends FormRequest
             'leased_mac_address' => ['required', 'string', new MacAddress()],
             'ip_address' => 'required|ip',
             'remote_id' => ['string', new MacAddress()],
+            'expired' => ['required','boolean'],
         ];
     }
 }

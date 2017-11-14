@@ -10,5 +10,6 @@ class PendingDhcpAssignment extends Model
         'leased_mac_address',
         'ip_address',
         'remote_id',
+        'expired',
     ];
 }
