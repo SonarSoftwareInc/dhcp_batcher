@@ -13,7 +13,6 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                        <a href="/configuration" class="btn btn-primary btn-lg btn-block">Configuration</a>
                         <a href="/dhcp_servers" class="btn btn-primary btn-lg btn-block">DHCP Servers</a>
                         <a href="/logs" class="btn btn-primary btn-lg btn-block">Logs</a>
                 </div>
