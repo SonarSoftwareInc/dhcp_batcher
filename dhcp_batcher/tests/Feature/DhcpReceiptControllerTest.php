@@ -1,7 +1,8 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature;
 
+use App\DhcpServer;
 use App\PendingDhcpAssignment;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -11,6 +12,16 @@ class DhcpReceiptControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
+    private $dhcpServer;
+    public function setUp()
+    {
+        parent::setUp();
+        $this->dhcpServer = factory(DhcpServer::class)->create([
+            'username' => 'test',
+            'password' => bcrypt('secret'),
+        ]);
+    }
+
     /**
      * @test
      */
@@ -18,7 +29,8 @@ class DhcpReceiptControllerTest extends TestCase
     {
         $this->assertNull(PendingDhcpAssignment::where('leased_mac_address','=','00:00:00:00:00:00')->first());
 
-        $response = $this->json('POST', '/api/dhcp_assignments', [
+        $response = $this->actingAs($this->dhcpServer, 'api')
+            ->json('POST', '/api/dhcp_assignments', [
             'leased_mac_address' => '00:00:00:00:00:00',
             'ip_address' => '192.168.100.1',
         ]);
@@ -41,7 +53,8 @@ class DhcpReceiptControllerTest extends TestCase
     {
         $this->assertNull(PendingDhcpAssignment::where('leased_mac_address','=','00:00:00:00:00:00')->first());
 
-        $response = $this->get('/api/dhcp_assignments?leased_mac_address=00:00:00:00:00:00&ip_address=192.168.100.1');
+        $response = $this->actingAs($this->dhcpServer, 'api')
+            ->get('/api/dhcp_assignments?leased_mac_address=00:00:00:00:00:00&ip_address=192.168.100.1');
 
         $response->assertStatus(200)
             ->assertJson(['success' => true ]);
@@ -61,7 +74,8 @@ class DhcpReceiptControllerTest extends TestCase
     {
         $this->assertNull(PendingDhcpAssignment::where('leased_mac_address','=','00:00:00:00:00:00')->first());
 
-        $response = $this->json('POST', '/api/dhcp_assignments', [
+        $response = $this->actingAs($this->dhcpServer, 'api')
+            ->json('POST', '/api/dhcp_assignments', [
             'leased_mac_address' => '00:00:00:00:00:00',
             'ip_address' => '192.168.100.1',
             'remote_id' => 'AA:AA:AA:AA:AA:AA'
@@ -83,7 +97,7 @@ class DhcpReceiptControllerTest extends TestCase
      */
     public function a_dhcp_assignment_with_a_bad_mac_is_rejected()
     {
-        $response = $this->json('POST', '/api/dhcp_assignments', [
+        $response = $this->actingAs($this->dhcpServer, 'api')->json('POST', '/api/dhcp_assignments', [
             'leased_mac_address' => '00:00:00:00:00:0Z',
             'ip_address' => '192.168.100.1',
         ]);
@@ -96,7 +110,7 @@ class DhcpReceiptControllerTest extends TestCase
      */
     public function a_dhcp_assignment_with_a_bad_remote_id_is_rejected()
     {
-        $response = $this->json('POST', '/api/dhcp_assignments', [
+        $response = $this->actingAs($this->dhcpServer, 'api')->json('POST', '/api/dhcp_assignments', [
             'leased_mac_address' => '00:00:00:00:00:0A',
             'ip_address' => '192.168.100.1',
             'remote_id' => '00:00:00:00:00:0Z',
@@ -110,7 +124,7 @@ class DhcpReceiptControllerTest extends TestCase
      */
     public function a_dhcp_assignment_with_a_missing_mac_is_rejected()
     {
-        $response = $this->json('POST', '/api/dhcp_assignments', [
+        $response = $this->actingAs($this->dhcpServer, 'api')->json('POST', '/api/dhcp_assignments', [
             'ip_address' => '192.168.100.1',
             'remote_id' => '00:00:00:00:00:0A',
         ]);
@@ -123,7 +137,7 @@ class DhcpReceiptControllerTest extends TestCase
      */
     public function a_dhcp_assignment_with_a_missing_ip_address_is_rejected()
     {
-        $response = $this->json('POST', '/api/dhcp_assignments', [
+        $response = $this->actingAs($this->dhcpServer, 'api')->json('POST', '/api/dhcp_assignments', [
             'leased_mac_address' => '00:00:00:00:00:00',
             'remote_id' => '00:00:00:00:00:0A',
         ]);
@@ -136,7 +150,7 @@ class DhcpReceiptControllerTest extends TestCase
      */
     public function a_dhcp_assignment_with_a_bad_ip_is_rejected()
     {
-        $response = $this->json('POST', '/api/dhcp_assignments', [
+        $response = $this->actingAs($this->dhcpServer, 'api')->json('POST', '/api/dhcp_assignments', [
             'leased_mac_address' => '00:00:00:00:00:0A',
             'ip_address' => '192.168.100.256',
         ]);

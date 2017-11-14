@@ -34,8 +34,8 @@ class AuthServiceProvider extends ServiceProvider
         Auth::extend('apiguard', function ($app, $name, array $config) {
             // Return an instance of Illuminate\Contracts\Auth\Guard...
             return new ApiGuard(Auth::createUserProvider($config['provider']), [
-                'username' => request()->header()['php-auth-user'][0],
-                'password' => request()->header()['php-auth-pw'][0]
+                'username' => isset(request()->header()['php-auth-user'][0]) ? request()->header()['php-auth-user'][0] : null,
+                'password' => isset(request()->header()['php-auth-pw'][0]) ? request()->header()['php-auth-pw'][0] : null,
             ]);
         });
     }
