@@ -27,7 +27,7 @@ class BatchRequestGenerator
         {
             PendingDhcpAssignment::whereIn('id',$chunk)->delete();
         }
-        
+
         return array_values($structure);
     }
 

@@ -42,10 +42,14 @@ class BatchRequestGeneratorTest extends TestCase
     {
         $assignments = factory(PendingDhcpAssignment::class, 2)->create(['expired' => false]);
 
-        $duplicateAssignment = clone($assignments[1]);
-        unset($duplicateAssignment->id);
-        $duplicateAssignment->expired = true;
+        $duplicateAssignment = new PendingDhcpAssignment([
+            'leased_mac_address' => $assignments[1]->leased_mac_address,
+            'ip_address' => $assignments[1]->ip_address,
+            'expired' => true,
+        ]);
         $duplicateAssignment->save();
+        
+        $this->assertEquals(3, PendingDhcpAssignment::count());
 
         $batchGenerator = new BatchRequestGenerator();
         $structure = $batchGenerator->generateStructure();
@@ -73,7 +77,7 @@ class BatchRequestGeneratorTest extends TestCase
      */
     public function generating_a_request_removes_pending_requests()
     {
-        $assignments = factory(PendingDhcpAssignment::class, 2)->create();
+        factory(PendingDhcpAssignment::class, 2)->create();
         $batchGenerator = new BatchRequestGenerator();
         $this->assertCount(2, $batchGenerator->generateStructure());
         $this->assertCount(0, $batchGenerator->generateStructure());
