@@ -7,6 +7,7 @@ use Illuminate\Auth\GuardHelpers;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ApiGuard implements Guard
 {
@@ -51,6 +52,11 @@ class ApiGuard implements Guard
             {
                 return $this->user = $user;
             }
+        }
+
+        if (config("app.debug") == true)
+        {
+            Log::error("Access attempt from " . request()->getClientIp() . " using username {$this->username} rejected due to invalid credentials.");
         }
 
         return null;
