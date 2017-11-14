@@ -6,7 +6,16 @@ A tool for batching DHCP requests on large networks, and handling Option 82 requ
 
 ## Requirements
 
-TODO: Write me
+This tool doesn't do a lot. It receives DHCP assignments from your DHCP server(s), batches them into a single submission to Sonar, sends the batch, and logs any failures. There are two main possible bottlenecks:
+
+* The HTTP server can't process requests fast enough. Since validation, authentication, and database access all consume resources, a very large amount of incoming requests can cause issues.
+* The database can't read/write fast enough. This is mostly going to be a function of disk access speed.
+
+If you are only handling assignments for a few thousand subscribers, and you don't anticipate long, unending floods of DHCP releases and renewals, a fairly modest server will work fine - a couple of cores, 4GB of RAM, and decently fast disks, preferably SSDs. If you expect large amounts of requests (tens/hundreds of thousands of subscribers, or very short DHCP leases) then additional resources will be required. More RAM and cores will help significantly, but you should monitor the server resources and increase where appropriate.
+
+Please note that it is simple (and encouraged) to run multiple batchers on very large networks. It will scale much better to point 50 DHCP servers at batcher A, and 50 DHCP servers at batcher B, than it will to point 100 DHCP servers at a scaled up batcher. However, you should not run multiple batchers behind a load balancer, as it defeats the purpose of batching requests if the same batcher is not receiving all requests from one DHCP server. You certainly could run a failover configuration though, using something like [vrrpd](https://github.com/fredbcode/Vrrpd).
+
+That being said, start small - most networks don't handle huge floods of DHCP requests, as they are normally reasonably spaced out based on lease times. The biggest thing you can do to prevent performance issues is not to set very short DHCP lease times.
 
 ## Installation
 
@@ -55,3 +64,15 @@ You may need to reload PHP-FPM after the last two commands, if you are using PHP
 ### Creating an initial user
 
 After initial installation, you can create a new user. Type `php /usr/share/dhcp_batcher/artisan make:user test@example.com`, replacing `test@example.com` with the user's email address, to generate a new user account. You can run this multiple times if you want to have additional users created.
+
+### Resetting your password
+
+//TODO: write me
+
+### Logging in
+
+To login, access the server IP/hostname in a browser (e.g. http://192.168.100.1.) Login using the username and password created in the **Creating an initial user** section.
+
+### Delivering DHCP leases to the batcher
+
+//TODO: write me
