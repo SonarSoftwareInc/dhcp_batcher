@@ -12,30 +12,31 @@ $latestVersion = $body[0]->name;
 if (version_compare($currentVersion, $latestVersion) === -1)
 {
     echo "There is a newer version, $latestVersion.\n";
-    exec("(cd " . dirname(__FILE__) . "; git reset --hard origin/master)",$output,$returnVal);
-    if ($returnVal !== 0)
-    {
+    exec("(cd " . dirname(__FILE__) . "; git reset --hard origin/master)", $output, $returnVal);
+    if ($returnVal !== 0) {
         echo "There was an error updating to master.\n";
         return;
     }
-    exec("(cd " . dirname(__FILE__) . "; git pull https://github.com/sonarsoftware/dhcp_batcher master)",$output,$returnVal);
-    if ($returnVal !== 0)
-    {
+    exec("(cd " . dirname(__FILE__) . "; git pull https://github.com/sonarsoftware/dhcp_batcher master)", $output,
+        $returnVal);
+    if ($returnVal !== 0) {
         echo "There was an error updating to master.\n";
         return;
     }
-    exec("(cd " . dirname(__FILE__) . "; git fetch --tags)",$output,$returnVal);
-    if ($returnVal !== 0)
-    {
+    exec("(cd " . dirname(__FILE__) . "; git fetch --tags)", $output, $returnVal);
+    if ($returnVal !== 0) {
         echo "There was an error updating to master.\n";
         return;
     }
-    exec("(cd " . dirname(__FILE__) . "; git checkout tags/$latestVersion)",$output,$returnVal);
-    if ($returnVal !== 0)
-    {
+    exec("(cd " . dirname(__FILE__) . "; git checkout tags/$latestVersion)", $output, $returnVal);
+    if ($returnVal !== 0) {
         echo "There was an error checking out $latestVersion.\n";
         return;
     }
+
+    exec("/usr/bin/php " . dirname(__FILE__) . "/artisan migrate --force");
+    exec("/usr/bin/php " . dirname(__FILE__) . "/artisan config:cache");
+    exec("/usr/bin/php " . dirname(__FILE__) . "/artisan route:cache");
 }
 
 echo "You are on the latest version.\n";
