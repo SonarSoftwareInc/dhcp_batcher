@@ -21,7 +21,7 @@ class BatchRequestGenerator
                 'expired' => $assignment->expired,
                 'ip_address' => $assignment->ip_address,
                 'mac_address' => $assignment->leased_mac_address,
-                'remote_id' => $assignment->remote_id,
+                'remote_id' => $assignment->remote_id === $assignment->leased_mac_address ? null : $assignment->remote_id,
             ];
         }
 

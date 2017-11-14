@@ -71,4 +71,24 @@ class BatchRequestGeneratorTest extends TestCase
 
         $this->assertCount(2, $structure);
     }
+
+    /**
+     * @test
+     */
+    public function an_assignment_with_an_identical_leased_mac_and_remote_id_doesnt_generate_the_remote_id()
+    {
+        $assignment = factory(PendingDhcpAssignment::class)->create(['leased_mac_address' => '00:00:00:00:00:00', 'remote_id' => '00:00:00:00:00:00']);
+
+        $batchGenerator = new BatchRequestGenerator();
+        $structure = $batchGenerator->generateStructure();
+
+        $this->assertEquals([
+            [
+                'expired' => $assignment->expired,
+                'ip_address' => $assignment->ip_address,
+                'mac_address' => $assignment->leased_mac_address,
+                'remote_id' => null
+            ]
+        ], $structure);
+    }
 }

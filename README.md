@@ -67,7 +67,7 @@ After initial installation, you can create a new user. Type `php /usr/share/dhcp
 
 ### Resetting your password
 
-//TODO: write me
+Since the DHCP batcher has no capacity to send email, there is no *Forgot Password* function available in the web interface. To reset a user password, run `php /usr/share/dhcp_batcher/artisan reset test@example.com` replacing `test@example.com` with the user's email address. You will be provided with a new random password on the command line.
 
 ### Logging in
 
