@@ -11,8 +11,8 @@ sudo apt-get -y install postgresql
 /usr/bin/sudo -u postgres psql -c "CREATE DATABASE dhcp_batcher OWNER dhcp_batcher ENCODING 'utf8';"
 /usr/bin/sudo -u postgres psql dhcp_batcher -c "CREATE EXTENSION citext;"
 
-/bin/cp -r $DIR/dhcp_batcher /usr/share/dhcp_batcher
-/bin/cp -r /usr/share/dhcp_batcher/.env.example /usr/share/dhcp_batcher/.env
+/bin/cp -R $DIR/* /usr/share/dhcp_batcher
+/bin/cp -R /usr/share/dhcp_batcher/dhcp_batcher/.env.example /usr/share/dhcp_batcher/dhcp_batcher/.env
 (cd /usr/share/dhcp_batcher; composer install)
 /usr/bin/php /usr/share/dhcp_batcher/artisan key:generate
 
@@ -26,9 +26,9 @@ sudo systemctl restart php7.0-fpm
 sudo /bin/cp -rf $DIR/conf/default /etc/nginx/sites-available/default
 sudo systemctl reload nginx
 
-/usr/bin/php /usr/share/dhcp_batcher/artisan migrate --force
-/usr/bin/php /usr/share/dhcp_batcher/artisan config:cache
-/usr/bin/php /usr/share/dhcp_batcher/artisan route:cache
+/usr/bin/php /usr/share/dhcp_batcher/dhcp_batcher/artisan migrate --force
+/usr/bin/php /usr/share/dhcp_batcher/dhcp_batcher/artisan config:cache
+/usr/bin/php /usr/share/dhcp_batcher/dhcp_batcher/artisan route:cache
 
 sudo /bin/cp -f $DIR/conf/sonar_scheduler /etc/cron.d/
 sudo chmod 644 /etc/cron.d/sonar_scheduler

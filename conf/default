@@ -6,7 +6,7 @@ server {
     add_header X-XSS-Protection "1; mode=block";
     add_header X-Content-Type-Options "nosniff";
 
-	root /usr/share/dhcp_batcher/public;
+	root /usr/share/dhcp_batcher/dhcp_batcher/public;
 
 	# Add index.php to the list if you are using PHP
 	index index.php index.html index.htm index.nginx-debian.html;

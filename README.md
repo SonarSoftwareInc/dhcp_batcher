@@ -53,25 +53,25 @@ Once this is done, install [Composer](https://getcomposer.org) and run `composer
 
 You will need to setup cron to run the Sonar scheduler. Check out the `sonar_scheduler` file in the `conf` directory for an example file that could be placed in `/etc/cron.d` or wherever is appropriate for your OS.
 
-Finally, run the following commands:
+Finally, run the following commands (substituting /usr/share/dhcp_batcher/dhcp_batcher with wherever you installed the DHCP batcher to)
 
-* /usr/bin/php /usr/share/dhcp_batcher/artisan migrate --force
-* /usr/bin/php /usr/share/dhcp_batcher/artisan config:cache
-* /usr/bin/php /usr/share/dhcp_batcher/artisan route:cache
+* /usr/bin/php /usr/share/dhcp_batcher/dhcp_batcher/artisan migrate --force
+* /usr/bin/php /usr/share/dhcp_batcher/dhcp_batcher/artisan config:cache
+* /usr/bin/php /usr/share/dhcp_batcher/dhcp_batcher/artisan route:cache
 
 You may need to reload PHP-FPM after the last two commands, if you are using PHP-FPM.
 
-Any time you modify your .env file, you must run `/usr/bin/php /usr/share/dhcp_batcher/artisan config:cache` and reload PHP-FPM.
+Any time you modify your .env file, you must run `/usr/bin/php /usr/share/dhcp_batcher/dhcp_batcher/artisan config:cache` and reload PHP-FPM.
 
 ## Configuration
 
 ### Creating an initial user
 
-After initial installation, you can create a new user. Type `php /usr/share/dhcp_batcher/artisan make:user test@example.com`, replacing `test@example.com` with the user's email address, to generate a new user account. You can run this multiple times if you want to have additional users created.
+After initial installation, you can create a new user. Type `php /usr/share/dhcp_batcher/dhcp_batcher/artisan make:user test@example.com`, replacing `test@example.com` with the user's email address, to generate a new user account. You can run this multiple times if you want to have additional users created.
 
 ### Resetting your password
 
-Since the DHCP batcher has no capacity to send email, there is no *Forgot Password* function available in the web interface. To reset a user password, run `php /usr/share/dhcp_batcher/artisan reset test@example.com` replacing `test@example.com` with the user's email address. You will be provided with a new random password on the command line.
+Since the DHCP batcher has no capacity to send email, there is no *Forgot Password* function available in the web interface. To reset a user password, run `php /usr/share/dhcp_batcher/dhcp_batcher/artisan reset test@example.com` replacing `test@example.com` with the user's email address. You will be provided with a new random password on the command line.
 
 ### Logging in
 
@@ -124,9 +124,9 @@ You can test this script by running the following command directly from your Mik
 
 There is an .env file located in your dhcp_batcher directory (typically /usr/share/dhcp_batcher.) This file has three properties in it - `SONAR_URL`, `SONAR_USERNAME`, and `SONAR_PASSWORD`. Enter the URL of your Sonar instance (e.g. https://example.sonar.software) in the `SONAR_URL` field. Enter a valid username and password that you can use to login to your instance in the `SONAR_USERNAME` and `SONAR_PASSWORD` field. This user requires *Account Create* and *Account Update* permissions, and should not be given any other permissions. **Do not use an administrative account here!**
 
-You can test the user by executing `/usr/bin/php /usr/share/dhcp_batcher/artisan sonar:test`.
+You can test the user by executing `/usr/bin/php /usr/share/dhcp_batcher/dhcp_batcher/artisan sonar:test`.
 
-Once you're done, execute `/usr/bin/php /usr/share/dhcp_batcher/artisan config:cache` followed by `sudo systemctl reload php7.0-fpm`.
+Once you're done, execute `/usr/bin/php /usr/share/dhcp_batcher/dhcp_batcher/artisan config:cache` followed by `sudo systemctl reload php7.0-fpm`.
 
 ### Enabling SSL
 
@@ -134,19 +134,19 @@ It is strongly recommended that you secure this server using SSL. You can get a 
 
 ### Upgrading
 
-You can upgrade by running `php /usr/share/dhcp_batcher/upgrade.php`, or just by checking out this repository and copying the files over the top. If you don't use the upgrade script, it's important to run the following commands after copying the repository files over:
+You can upgrade by running `php /usr/share/dhcp_batcher/dhcp_batcher/upgrade.php`, or just by checking out this repository and copying the files over the top. If you don't use the upgrade script, it's important to run the following commands after copying the repository files over:
 
-* /usr/bin/php /usr/share/dhcp_batcher/artisan migrate --force
-* /usr/bin/php /usr/share/dhcp_batcher/artisan config:cache
-* /usr/bin/php /usr/share/dhcp_batcher/artisan route:cache
+* /usr/bin/php /usr/share/dhcp_batcher/dhcp_batcher/artisan migrate --force
+* /usr/bin/php /usr/share/dhcp_batcher/dhcp_batcher/artisan config:cache
+* /usr/bin/php /usr/share/dhcp_batcher/dhcp_batcher/artisan route:cache
 * sudo systemctl reload php7.0-fpm
 
 If you'd like updates to happen automatically, you can add a cron script to run the upgrade file each day. There's an example script in `conf` called `auto_upgrades` - if you copy this into `/etc/cron.d` and then run `chmod 644 /etc/cron.d/auto_upgrades`, then your system will automatically upgrade every night at midnight if there's a new version.
 
 ## Troubleshooting
 
-**By default, the batcher will not log many errors. You can enable enhanced logging by setting `APP_DEBUG` to `true` in your `.env` file. You will need to run `/usr/bin/php /usr/share/dhcp_batcher/artisan config:cache` after modifying this file.**
+**By default, the batcher will not log many errors. You can enable enhanced logging by setting `APP_DEBUG` to `true` in your `.env` file. You will need to run `/usr/bin/php /usr/share/dhcp_batcher/dhcp_batcher/artisan config:cache` after modifying this file.**
 
-Any errors are logged to `storage/logs/laravel.log`. You can view this in a standard installation by typing `tail -f /usr/share/dhcp_batcher/storage/logs/laravel.log` and initiating some calls from your DHCP server.
+Any errors are logged to `storage/logs/laravel.log`. You can view this in a standard installation by typing `tail -f /usr/share/dhcp_batcher/dhcp_batcher/storage/logs/laravel.log` and initiating some calls from your DHCP server.
 
 You should not leave debug mode permanently enabled, unless you setup some kind of [log rotation](http://manpages.ubuntu.com/manpages/xenial/man8/logrotate.8.html) mechanism on the log file, as it will eventually grow to consume all storage space available.
