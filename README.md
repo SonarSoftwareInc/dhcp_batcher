@@ -126,13 +126,22 @@ There is an .env file located in your dhcp_batcher directory (typically /usr/sha
 
 You can test the user by executing `/usr/bin/php /usr/share/dhcp_batcher/artisan sonar:test`.
 
+Once you're done, execute `/usr/bin/php /usr/share/dhcp_batcher/artisan config:cache` followed by `sudo systemctl reload php7.0-fpm`.
+
 ### Enabling SSL
 
 It is strongly recommended that you secure this server using SSL. You can get a free Let's Encrypt certificate in order to this. There is a tutorial available [here](https://www.digitalocean.com/community/tutorials/how-to-set-up-let-s-encrypt-with-nginx-server-blocks-on-ubuntu-16-04) that steps you through configuration Let's Encrypt with nginx on Ubuntu. If you utilized the Ubuntu installation script, you should be able to follow these instructions to setup a free SSL certificate quickly. The nginx configuration file referenced in the tutorial is at `/etc/nginx/sites-available/default`.
 
 ### Upgrading
 
-You can upgrade by running `php /usr/share/dhcp_batcher/upgrade.php`, or just by checking out this repository and copying the files over the top.
+You can upgrade by running `php /usr/share/dhcp_batcher/upgrade.php`, or just by checking out this repository and copying the files over the top. If you don't use the upgrade script, it's important to run the following commands after copying the repository files over:
+
+* /usr/bin/php /usr/share/dhcp_batcher/artisan migrate --force
+* /usr/bin/php /usr/share/dhcp_batcher/artisan config:cache
+* /usr/bin/php /usr/share/dhcp_batcher/artisan route:cache
+* sudo systemctl reload php7.0-fpm
+
+If you'd like updates to happen automatically, you can add a cron script to run the upgrade file each day. There's an example script in `conf` called `auto_upgrades` - if you copy this into `/etc/cron.d` and then run `chmod 644 /etc/cron.d/auto_upgrades`, then your system will automatically upgrade every night at midnight if there's a new version.
 
 ## Troubleshooting
 
