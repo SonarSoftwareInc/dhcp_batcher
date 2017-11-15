@@ -30,4 +30,7 @@ sudo systemctl reload nginx
 /usr/bin/php /usr/share/dhcp_batcher/artisan config:cache
 /usr/bin/php /usr/share/dhcp_batcher/artisan route:cache
 
+sudo /bin/cp -f $DIR/conf/sonar_scheduler /etc/cron.d/
+sudo chmod 644 /etc/cron.d/sonar_scheduler
+
 sudo systemctl reload php7.0-fpm

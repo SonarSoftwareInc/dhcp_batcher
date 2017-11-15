@@ -51,6 +51,8 @@ After setup, you will need to copy the `.env.example` file in the `dhcp_batcher`
 
 Once this is done, install [Composer](https://getcomposer.org) and run `composer install` inside the `dhcp_batcher` directory.
 
+You will need to setup cron to run the Sonar scheduler. Check out the `sonar_scheduler` file in the `conf` directory for an example file that could be placed in `/etc/cron.d` or wherever is appropriate for your OS.
+
 Finally, run the following commands:
 
 * /usr/bin/php /usr/share/dhcp_batcher/artisan migrate --force
