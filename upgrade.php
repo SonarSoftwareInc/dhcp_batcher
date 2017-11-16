@@ -1,7 +1,7 @@
 <?php
-require(dirname(__FILE__) . "/vendor/autoload.php");
+require(dirname(__FILE__) . "/dhcp_batcher/vendor/autoload.php");
 
-$currentVersion = (string)file_get_contents(dirname(__FILE__) . "/resources/version");
+$currentVersion = (string)file_get_contents(dirname(__FILE__) . "/dhcp_batcher/resources/version");
 echo "Checking for new upgrades newer than $currentVersion!\n";
 
 $client = new GuzzleHttp\Client();
@@ -34,10 +34,10 @@ if (version_compare($currentVersion, $latestVersion) === -1)
         return;
     }
 
-    exec("/usr/bin/php " . dirname(__FILE__) . "/artisan migrate --force");
-    exec("/usr/bin/php " . dirname(__FILE__) . "/artisan config:cache");
-    exec("/usr/bin/php " . dirname(__FILE__) . "/artisan route:cache");
-    exec("(cd " . dirname(__FILE__) . "; composer install)");
+    exec("/usr/bin/php " . dirname(__FILE__) . "/dhcp_batcher/artisan migrate --force");
+    exec("/usr/bin/php " . dirname(__FILE__) . "/dhcp_batcher/artisan config:cache");
+    exec("/usr/bin/php " . dirname(__FILE__) . "/dhcp_batcher/artisan route:cache");
+    exec("(cd " . dirname(__FILE__) . "/dhcp_batcher; composer install)");
 }
 
 echo "You are on the latest version.\n";
