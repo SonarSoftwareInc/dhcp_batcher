@@ -118,7 +118,7 @@ Below is an example script you can use on a [MikroTik](http://mikrotik.com) DHCP
 You can test this script by running the following command directly from your MikroTik terminal. You must replace the $url, $mode, $username, and $password variables with valid information.
 
 ```
-/tool fetch url="$mode://$url/api/dhcp_assignments\?ip_address=192.168.100.1&leased_mac_address=00:00:00:00:00:00&remote_id=&expired=0" mode=$mode keep-result=no user=$username password=$password
+/tool fetch url="$mode://$url/api/dhcp_assignments\?ip_address=192.168.100.1&leased_mac_address=00:00:00:00:00:00&expired=0" mode=$mode keep-result=no user=$username password=$password
 ```
 
 ### Linking the batcher to Sonar
