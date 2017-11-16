@@ -1,1 +1,2 @@
 1 0 * * * www-data php /usr/share/dhcp_batcher/upgrade.php
+1 10 * * * root systemctl reload php7.0-fpm
