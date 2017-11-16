@@ -43,6 +43,7 @@ If you're not planning on using Ubuntu, you will need:
     * Tokenizer
     * XML
     * PGSQL
+    * zip
 * PostgreSQL 9.5+
 * A functioning web server (e.g. Apache, Nginx, Caddy) that serves up the `dhcp_batcher` folder inside the repository. Check out `conf/default` for an example nginx configuration file.
 * Redis

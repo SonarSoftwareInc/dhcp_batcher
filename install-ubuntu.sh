@@ -2,7 +2,7 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 sudo apt-get -y update
-sudo apt-get -y install php7.0 php7.0-common php7.0-mbstring php7.0-xml php7.0-fpm php7.0-pgsql php7.0-opcache composer
+sudo apt-get -y install php7.0 php7.0-common php7.0-mbstring php7.0-xml php7.0-fpm php7.0-pgsql php7.0-opcache composer php-zip
 sudo apt-get -y install nginx
 sudo apt-get -y install redis-server
 sudo apt-get -y install postgresql
