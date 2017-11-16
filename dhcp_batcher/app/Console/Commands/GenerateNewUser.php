@@ -49,7 +49,7 @@ class GenerateNewUser extends Command
         $user = User::where('email','=',$email)->first();
         if ($user !== null)
         {
-            $this->error("A user already exists with that email. Please use the 'Forgot Your Password' link to reset it.");
+            $this->error("A user already exists with that email. Please use the 'artisan reset $email' command to reset it.");
             return 2;
         }
 
