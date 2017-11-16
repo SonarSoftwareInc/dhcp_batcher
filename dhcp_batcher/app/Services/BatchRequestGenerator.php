@@ -17,7 +17,7 @@ class BatchRequestGenerator
 
         ];
 
-        $this->assignments = PendingDhcpAssignment::orderBy('created_at','asc')->get();
+        $this->assignments = PendingDhcpAssignment::orderBy('id','asc')->get();
         foreach ($this->assignments as $assignment)
         {
             $structure[$this->generateHash($assignment)] = [

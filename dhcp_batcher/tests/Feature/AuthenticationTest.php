@@ -30,7 +30,9 @@ class AuthenticationTest extends TestCase
         $this->post("/login",[
             'email' => 'test@example.com',
             'password' => 'foo',
-        ])->assertRedirect('/home');
+        ]);
+
+        $this->get("/home")->assertStatus(200);
     }
 
     /** @test */
@@ -46,6 +48,8 @@ class AuthenticationTest extends TestCase
             'email' => 'foo@example.com',
             'password' => 'foo'
         ])->assertRedirect('/');
+
+        $this->get("/home")->assertStatus(302)->assertRedirect("/login");
     }
 
     /** @test */

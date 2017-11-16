@@ -20,7 +20,7 @@ class BatchRequestGeneratorTest extends TestCase
         $assignments = factory(PendingDhcpAssignment::class, 2)->create();
         $batchGenerator = new BatchRequestGenerator();
         $this->assertEquals([
-            'data' => array_reverse([
+            'data' => [
                 [
                     'expired' => $assignments[0]->expired,
                     'ip_address' => $assignments[0]->ip_address,
@@ -33,7 +33,7 @@ class BatchRequestGeneratorTest extends TestCase
                     'mac_address' => $assignments[1]->leased_mac_address,
                     'remote_id' => $assignments[1]->remote_id,
                 ]
-            ])
+            ]
         ], $batchGenerator->generateStructure());
     }
 
@@ -57,7 +57,7 @@ class BatchRequestGeneratorTest extends TestCase
         $this->assertEquals(3, PendingDhcpAssignment::count());
 
         $this->assertEquals([
-            'data' => array_reverse([
+            'data' => [
                 [
                     'expired' => $assignments[0]->expired,
                     'ip_address' => $assignments[0]->ip_address,
@@ -70,10 +70,10 @@ class BatchRequestGeneratorTest extends TestCase
                     'mac_address' => $duplicateAssignment->leased_mac_address,
                     'remote_id' => $duplicateAssignment->remote_id,
                 ]
-            ])
+            ]
         ], $structure);
 
-        $this->assertCount(2, $structure);
+        $this->assertCount(2, $structure['data']);
     }
 
     /**
