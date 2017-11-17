@@ -1,1 +1,1 @@
-* * * * * www-data php /usr/share/dhcp_batcher/artisan schedule:run >> /dev/null 2>&1
+* * * * * www-data php /usr/share/dhcp_batcher/dhcp_batcher/artisan schedule:run >> /dev/null 2>&1
