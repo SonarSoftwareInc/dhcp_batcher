@@ -123,7 +123,7 @@ You can test this script by running the following command directly from your Mik
 
 ### Linking the batcher to Sonar
 
-There is an .env file located in your dhcp_batcher directory (typically /usr/share/dhcp_batcher.) This file has three properties in it - `SONAR_URL`, `SONAR_USERNAME`, and `SONAR_PASSWORD`. Enter the URL of your Sonar instance (e.g. https://example.sonar.software) in the `SONAR_URL` field. Enter a valid username and password that you can use to login to your instance in the `SONAR_USERNAME` and `SONAR_PASSWORD` field. This user requires *Account Create* and *Account Update* permissions, and should not be given any other permissions. **Do not use an administrative account here!**
+There is an .env file located in your dhcp_batcher directory (typically /usr/share/dhcp_batcher.) This file has three properties in it - `SONAR_URL`, `SONAR_USERNAME`, and `SONAR_PASSWORD`. Enter the URL of your Sonar instance (e.g. https://example.sonar.software) in the `SONAR_URL` field. Enter a valid username and password that you can use to login to your instance in the `SONAR_USERNAME` and `SONAR_PASSWORD` field. This user requires *Account Read*, *Account Create*, *Account Update* permissions, and should not be given any other permissions. **Do not use an administrative account here!**
 
 You can test the user by executing `/usr/bin/php /usr/share/dhcp_batcher/dhcp_batcher/artisan sonar:test`.
 
