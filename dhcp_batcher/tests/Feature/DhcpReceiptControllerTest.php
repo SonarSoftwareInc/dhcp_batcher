@@ -71,6 +71,32 @@ class DhcpReceiptControllerTest extends TestCase
     /**
      * @test
      */
+    public function a_null_remote_id_is_allowed()
+    {
+        $this->assertNull(PendingDhcpAssignment::where('leased_mac_address','=','00:00:00:00:00:00')->first());
+
+        $response = $this->actingAs($this->dhcpServer, 'api')
+            ->json('POST', '/api/dhcp_assignments', [
+                'leased_mac_address' => '00:00:00:00:00:00',
+                'ip_address' => '192.168.100.1',
+                'remote_id' => null,
+                'expired' => false,
+            ]);
+
+        $response->assertStatus(200)
+            ->assertJson(['success' => true ]);
+
+        $this->assertNotNull(
+            PendingDhcpAssignment::where('leased_mac_address','=','00:00:00:00:00:00')
+                ->whereNull('remote_id')
+                ->where('ip_address','=','192.168.100.1')
+                ->first()
+        );
+    }
+
+    /**
+     * @test
+     */
     public function a_valid_dhcp_assignment_with_a_remote_id_is_saved()
     {
         $this->assertNull(PendingDhcpAssignment::where('leased_mac_address','=','00:00:00:00:00:00')->first());
