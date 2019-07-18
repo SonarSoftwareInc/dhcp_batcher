@@ -38,7 +38,7 @@ class DhcpServerController extends Controller
         $dhcpServer = DhcpServer::findOrFail($id);
         $password = str_random(16);
 
-        $dhcpServer->password = $password;
+        $dhcpServer->password = Hash::make($password);
         $dhcpServer->save();
 
         return redirect()->action('DhcpServerController@index')->with('status',"The new password for {$dhcpServer->name} is $password - copy this password, as you won't be able to view it again!");
