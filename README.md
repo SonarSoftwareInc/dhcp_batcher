@@ -1,5 +1,9 @@
 # Sonar DHCP Batcher
 
+## Running Sonar version 2?
+
+You don't need this, as equivalent functionality is built right into Sonar. Check out [this blog post](https://blog.sonar.software/dhcp-delivery/) for more details!
+
 ## What is this?
 
 A tool for batching DHCP requests on large networks, and handling Option 82 requests for delivery to [Sonar](https://sonar.software).
